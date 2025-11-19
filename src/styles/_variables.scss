@@ -1,0 +1,30 @@
+$space-1: 8px;
+$space-2: 16px;
+$space-3: 24px;
+$space-4: 32px;
+
+$font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+
+$primary: #1C274C;
+$accent: #2a80ae;
+$muted: #9aa0c4;
+$bg: #294467;
+$card-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 18px;
+
+:root {
+  --color-primary: #{$primary};
+  --color-accent: #{$accent};
+  --color-muted: #{$muted};
+  --bg: #{$bg};
+  --glass: rgba(255,255,255,0.03);
+  --text: #e6eef8;
+}
+[data-theme="light"] {
+  --bg: #f7f9ff;
+  --glass: rgba(0,0,0,0.03);
+  --text: #0b1330;
+}

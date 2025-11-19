@@ -1,0 +1,25 @@
+@mixin center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin respond($break) {
+  @if $break == 'sm' {
+    @media (min-width: 480px) { @content; }
+  } @else if $break == 'md' {
+    @media (min-width: 768px) { @content; }
+  } @else if $break == 'lg' {
+    @media (min-width: 1024px) { @content; }
+  }
+}
+
+@mixin transition($prop: all, $time: 300ms, $func: cubic-bezier(.22,.9,.31,1)) {
+  transition: $prop $time $func;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0px); }
+}

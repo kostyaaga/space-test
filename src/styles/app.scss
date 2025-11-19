@@ -1,0 +1,56 @@
+@use 'variables' as *;
+@use './_mixins' as *;
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: $font-sans;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.4;
+  font-size: 16px;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $space-3;
+}
+
+.u-row {
+  display: flex;
+  gap: $space-2;
+  align-items: center;
+}
+.u-center {
+  @include center;
+}
+h1, h2, h3, h4, h5 { margin: 0; color: var(--text); }
+p { color: var(--muted); margin: 0; }
+ul, li {
+  list-style: none;
+  padding-left: 0;
+}
+a{ text-decoration: none; }
+button{ cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+.card-glass {
+  background: var(--glass);
+  border-radius: $radius-md;
+  padding: $space-2;
+  box-shadow: 0 4px 18px rgba(2,6,23,0.6);
+  border: 1px solid rgba(255,255,255,0.03);
+}
+
+.content-wrapper {
+  padding-top: $space-4;
+  padding-bottom: $space-4;
+}
