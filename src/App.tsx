@@ -4,6 +4,7 @@ import Header from "./components/Header/idnex.tsx";
 import Home from "./pages/Home";
 import ItemsDetails from "./pages/ItemsDetails";
 import CreateItem from "./pages/CreateItem";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/create_item" element={<CreateItem />} />
         <Route path="/item/:id" element={<ItemsDetails />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

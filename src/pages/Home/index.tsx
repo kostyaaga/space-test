@@ -13,6 +13,7 @@ import { fetchItems, selectItemsData } from "../../redux/slisec/itemsSlice.ts";
 
 import Cart from "../../components/Cart";
 import type { Items } from "../../types/items.ts";
+import Skeleton from "../../components/Skeleton/index.tsx";
 
 const filters: FiltersType[] = [
   { name: "Все элементы", filterProperty: "all" },
@@ -22,7 +23,7 @@ const filters: FiltersType[] = [
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const { filter, likedItems, searchValue } = useAppSelector(selectFilterState);
-  const { items } = useSelector(selectItemsData);
+  const { items, status } = useSelector(selectItemsData);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [value, setValue] = React.useState("");
   const itemsToRender =
@@ -76,21 +77,19 @@ const Home: React.FC = () => {
         />
       </div>
       <div>
-        {filteredItems.length === 0 ? (
-          <div className={styles.content_items_empty}>
-            <h1>Тут нечего нет</h1>
-            <img
-              src="https://www.nasa.gov/wp-content/uploads/2023/03/a15pan11845-7.jpg?resize=900,427"
-              alt=""
-            />
-          </div>
-        ) : (
+        {
           <div className={styles.content_items}>
-            {filteredItems.map((obj) => (
-              <Cart key={obj.id} {...obj} />
-            ))}
+            {status === "loading" ? (
+              [...new Array(6)].map((_, index) => <Skeleton key={index} />)
+            ) : filter.filterProperty === "liked" && likedItems.length === 0 ? (
+              <h2 className={styles.content_items_empty}>
+                Добавьте элементы в избранное, чтобы они появились здесь.
+              </h2>
+            ) : (
+              filteredItems.map((obj) => <Cart key={obj.id} {...obj} />)
+            )}
           </div>
-        )}
+        }
       </div>
     </div>
   );
