@@ -14,6 +14,7 @@ import { fetchItems, selectItemsData } from "../../redux/slisec/itemsSlice.ts";
 import Cart from "../../components/Cart";
 import type { Items } from "../../types/items.ts";
 import Skeleton from "../../components/Skeleton/index.tsx";
+import Pagination from "../../components/Pagination";
 
 const filters: FiltersType[] = [
   { name: "Все элементы", filterProperty: "all" },
@@ -23,30 +24,53 @@ const filters: FiltersType[] = [
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
   const { filter, likedItems, searchValue } = useAppSelector(selectFilterState);
-  const { items, status } = useSelector(selectItemsData);
+  const { items, meta, status } = useSelector(selectItemsData);
+
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [value, setValue] = React.useState("");
-  const itemsToRender =
-    filter.filterProperty === "liked" ? (likedItems ?? []) : (items ?? []);
-
-  const onChangeCategory = (obj: FiltersType) => {
-    dispatch(setFilterId(obj));
-  };
-
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(event.target.value);
-    dispatch(setSearchValue(event.target.value));
-  };
+  const [page, setPage] = React.useState<number>(1);
+  const [limit] = React.useState<number>(6);
 
   React.useEffect(() => {
-    dispatch(fetchItems());
-  }, []);
+    if (filter.filterProperty === "liked") return;
+    const handler = setTimeout(() => {
+      dispatch(fetchItems({ page, limit }));
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [dispatch, page, limit, searchValue, filter.filterProperty]);
+
+  React.useEffect(() => {
+    setPage(1);
+  }, [filter.filterProperty]);
+
+  const itemsToRender: Items[] =
+    filter.filterProperty === "liked" ? (likedItems ?? []) : (items ?? []);
 
   const filteredItems = itemsToRender
     .filter(Boolean)
     .filter((obj: Items) =>
       obj.title.toLowerCase().includes(searchValue.toLowerCase()),
     );
+
+  React.useEffect(() => {
+    if (filter.filterProperty !== "liked" && meta) {
+      if (page > meta.total_pages && meta.total_pages > 0) {
+        setPage(meta.total_pages);
+      }
+    }
+  }, [meta, page, filter.filterProperty]);
+
+  const onChangeCategory = (obj: FiltersType) => {
+    dispatch(setFilterId(obj));
+    dispatch(setSearchValue(""));
+    setValue("");
+  };
+
+  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    dispatch(setSearchValue(event.target.value));
+    setPage(1);
+  };
 
   return (
     <div className={styles.content}>
@@ -91,6 +115,13 @@ const Home: React.FC = () => {
           </div>
         }
       </div>
+      {filter.filterProperty !== "liked" && meta && meta.total_pages > 1 && (
+        <Pagination
+          current={meta.current_page}
+          totalPages={meta.total_pages}
+          onChange={(p: React.SetStateAction<number>) => setPage(p)}
+        />
+      )}
     </div>
   );
 };

@@ -1,0 +1,40 @@
+
+.pagination {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.page, .control {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.03);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0 10px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-3px);
+    background: rgba(108,139,255,0.06);
+  }
+}
+
+.page.active {
+  background: linear-gradient(180deg, var(--color-primary), var(--color-primary-dark));
+  color: white;
+  font-weight: 700;
+}
+
+.control[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.dots {
+  padding: 0 6px;
+  color: var(--muted);
+}

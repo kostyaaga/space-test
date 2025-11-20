@@ -56,9 +56,15 @@
       padding: $space-2 $space-3;
       font-size: 1rem;
       color: var(--text);
+      width:300px;
       &:focus{
         outline: none;
         border: 1px solid $accent;
+      }
+
+      &::placeholder {
+        color: rgba(217, 217, 217, 0.4);
+        font-size: 18px;
       }
     }
 
